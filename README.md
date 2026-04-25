@@ -1,1 +1,861 @@
-# skin-form-2026
+[skin-consultation-form.html](https://github.com/user-attachments/files/27081583/skin-consultation-form.html)
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>皮膚管理諮詢表單 — MISS J AESTHETIC</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #8B6914;
+    --gold-light: #C4A44A;
+    --gold-pale: #E8D9B5;
+    --cream: #F5F0E8;
+    --cream-dark: #EDE5D8;
+    --brown-dark: #5C3D1A;
+    --text: #3A2A15;
+    --text-muted: #8B7355;
+    --white: #FDFAF5;
+    --border: #D4C4A0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Noto Serif TC', serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* Background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(196,164,74,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(139,105,20,0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 48px 0 40px;
+    border-bottom: 1px solid var(--gold-pale);
+    margin-bottom: 48px;
+    position: relative;
+  }
+
+  .header::before,
+  .header::after {
+    content: '◆';
+    position: absolute;
+    bottom: -10px;
+    font-size: 14px;
+    color: var(--gold);
+  }
+  .header::before { left: calc(50% - 60px); }
+  .header::after  { left: calc(50% + 46px); }
+
+  .brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--brown-dark);
+    letter-spacing: 0.05em;
+    line-height: 1.4;
+  }
+
+  .header-sub {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* Gold divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 36px 0 28px;
+  }
+  .divider-line { flex: 1; height: 1px; background: var(--gold-pale); }
+  .divider-text {
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  /* Section */
+  .section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 32px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .section-badge {
+    position: absolute;
+    top: -14px;
+    left: 28px;
+    background: var(--gold);
+    color: white;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    padding: 3px 16px;
+    border-radius: 1px;
+  }
+
+  .section-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    margin-bottom: 24px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--gold-pale);
+  }
+
+  /* Form elements */
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .form-row.full { grid-template-columns: 1fr; }
+  .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+
+  .field { display: flex; flex-direction: column; }
+  .field label {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+    margin-bottom: 7px;
+  }
+  .field label span { color: var(--gold); margin-left: 2px; }
+
+  .field input[type="text"],
+  .field input[type="number"],
+  .field input[type="date"],
+  .field select,
+  .field textarea {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 1px;
+    padding: 10px 14px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    -webkit-appearance: none;
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    border-color: var(--gold-light);
+    background: #FDFAF5;
+  }
+
+  .field textarea { resize: vertical; min-height: 80px; line-height: 1.8; }
+
+  /* Radio / Checkbox grid */
+  .check-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  .check-item input[type="radio"],
+  .check-item input[type="checkbox"] {
+    display: none;
+  }
+
+  .check-box {
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--border);
+    background: var(--cream);
+    border-radius: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+
+  .check-item input:checked ~ .check-box {
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+
+  .check-item input:checked ~ .check-box::after {
+    content: '✓';
+    color: white;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .radio-box {
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--border);
+    background: var(--cream);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+
+  .check-item input[type="radio"]:checked ~ .radio-box {
+    border-color: var(--gold);
+  }
+  .check-item input[type="radio"]:checked ~ .radio-box::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  .check-label {
+    font-size: 13px;
+    color: var(--text);
+    letter-spacing: 0.05em;
+  }
+
+  /* Skin type cards */
+  .skin-cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .skin-card-item { display: flex; flex-direction: column; }
+  .skin-card-item input { display: none; }
+
+  .skin-card {
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 12px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--cream);
+  }
+
+  .skin-card-item input:checked ~ .skin-card {
+    border-color: var(--gold);
+    background: rgba(196,164,74,0.1);
+  }
+
+  .skin-card .icon { font-size: 22px; margin-bottom: 6px; }
+  .skin-card .name { font-size: 13px; color: var(--text); font-weight: 600; margin-bottom: 4px; }
+  .skin-card .desc { font-size: 10px; color: var(--text-muted); line-height: 1.5; }
+
+  /* Advanced skin conditions */
+  .adv-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .adv-card {
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 16px;
+    background: var(--cream);
+  }
+
+  .adv-card h4 {
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--gold-pale);
+  }
+
+  /* Scale */
+  .scale-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .scale-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    width: 80px;
+    flex-shrink: 0;
+    letter-spacing: 0.08em;
+  }
+
+  .scale-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .dot-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .dot-item input { display: none; }
+  .dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--cream);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: transparent;
+  }
+  .dot-item input:checked ~ .dot {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: white;
+    font-size: 10px;
+  }
+  .dot-num { font-size: 9px; color: var(--text-muted); }
+
+  /* Observation box — 問看摸 */
+  .sop-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+
+  .sop-card {
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .sop-header {
+    background: var(--gold);
+    color: white;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sop-char {
+    font-size: 20px;
+    font-weight: 600;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .sop-title { font-size: 12px; letter-spacing: 0.1em; }
+
+  .sop-body {
+    padding: 14px;
+    background: var(--cream);
+  }
+
+  .sop-body textarea {
+    width: 100%;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 1px;
+    padding: 8px 10px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 12px;
+    color: var(--text);
+    resize: none;
+    height: 70px;
+    outline: none;
+    line-height: 1.8;
+  }
+  .sop-body textarea:focus { border-color: var(--gold-light); }
+
+  /* Diagnosis result */
+  .diagnosis-box {
+    background: linear-gradient(135deg, rgba(139,105,20,0.06), rgba(196,164,74,0.04));
+    border: 1px solid var(--gold-pale);
+    border-left: 3px solid var(--gold);
+    border-radius: 2px;
+    padding: 20px 24px;
+    margin-top: 8px;
+  }
+
+  .diagnosis-box p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 2;
+    font-style: italic;
+  }
+
+  .diagnosis-fill {
+    display: inline-block;
+    min-width: 100px;
+    border-bottom: 1px solid var(--gold);
+    padding: 0 8px;
+    color: var(--gold);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* Submit */
+  .form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .btn {
+    padding: 14px 48px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    border-radius: 1px;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: white;
+    border: 1px solid var(--gold);
+  }
+
+  .btn-primary:hover {
+    background: var(--brown-dark);
+    border-color: var(--brown-dark);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--gold-pale);
+    color: var(--gold);
+  }
+
+  /* Footer note */
+  .footer-note {
+    text-align: center;
+    margin-top: 48px;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  @media (max-width: 640px) {
+    .form-row { grid-template-columns: 1fr; }
+    .form-row.three { grid-template-columns: 1fr 1fr; }
+    .skin-cards { grid-template-columns: repeat(3, 1fr); }
+    .sop-grid { grid-template-columns: 1fr; }
+    .adv-grid { grid-template-columns: 1fr; }
+    .section { padding: 24px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- Header -->
+  <header class="header">
+    <p class="brand">Miss J Aesthetic</p>
+    <h1>皮膚管理諮詢表單</h1>
+    <p class="header-sub">Skin Analysis & Consultation Record</p>
+  </header>
+
+  <form>
+
+    <!-- ── Section 1: 基本資料 ── -->
+    <div class="section">
+      <div class="section-badge">01</div>
+      <p class="section-title">基本資料</p>
+
+      <div class="form-row">
+        <div class="field">
+          <label>姓名 <span>*</span></label>
+          <input type="text" placeholder="請輸入姓名">
+        </div>
+        <div class="field">
+          <label>諮詢日期 <span>*</span></label>
+          <input type="date">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>生日</label>
+          <input type="date">
+        </div>
+        <div class="field">
+          <label>性別</label>
+          <select>
+            <option value="">請選擇</option>
+            <option>女性</option>
+            <option>男性</option>
+            <option>其他</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="field">
+          <label>聯絡電話</label>
+          <input type="text" placeholder="09xx-xxx-xxx">
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="field">
+          <label>居家保養習慣</label>
+          <div class="check-grid" style="grid-template-columns: repeat(4,1fr); margin-bottom: 10px;">
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">每日早晚洗臉</span></label>
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">化妝水／化妝棉</span></label>
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">精華液</span></label>
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">乳液／乳霜</span></label>
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">防曬乳</span></label>
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">卸妝產品</span></label>
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">去角質產品</span></label>
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">眼霜</span></label>
+          </div>
+          <input type="text" placeholder="其他居家保養習慣說明…" style="margin-top: 4px;">
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="field">
+          <label>是否有定期保養習慣？</label>
+          <div class="check-grid" style="grid-template-columns: repeat(3,1fr);">
+            <label class="check-item">
+              <input type="radio" name="routine" value="yes">
+              <span class="radio-box"></span>
+              <span class="check-label">有，持續保養中</span>
+            </label>
+            <label class="check-item">
+              <input type="radio" name="routine" value="sometimes">
+              <span class="radio-box"></span>
+              <span class="check-label">偶爾保養</span>
+            </label>
+            <label class="check-item">
+              <input type="radio" name="routine" value="no">
+              <span class="radio-box"></span>
+              <span class="check-label">無保養習慣</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="field">
+          <label>曾使用過哪些保養項目（可複選）</label>
+          <div class="check-grid">
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">基礎清潔</span></label>
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">精華/安瓶</span></label>
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">化學去角質</span></label>
+            <label class="check-item" style="align-items: flex-start; flex-direction: column; gap: 6px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <input type="checkbox" id="medical_aesthetic"><span class="check-box"></span><span class="check-label">醫美療程</span>
+              </div>
+              <input type="text" placeholder="備註療程內容…" style="background: var(--cream); border: 1px solid var(--border); border-radius:1px; padding: 6px 10px; font-family: 'Noto Serif TC', serif; font-size: 12px; color: var(--text); outline: none; width: 100%; margin-left: 26px;">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="field">
+          <label>目前最在意的皮膚問題（可複選）</label>
+          <div class="check-grid">
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">出油／毛孔粗大</span></label>
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">乾燥／脫屑</span></label>
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">粉刺／痘痘</span></label>
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">膚色不均／色斑</span></label>
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">細紋／鬆弛</span></label>
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">泛紅／敏感</span></label>
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">暗沉／無光澤</span></label>
+            <label class="check-item"><input type="checkbox"><span class="check-box"></span><span class="check-label">痘疤／痘印</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Section 3: 膚質判斷 ── -->
+    <div class="section">
+      <div class="section-badge">02</div>
+      <p class="section-title">基礎膚質判斷</p>
+
+      <!-- 膚質指標量表 -->
+      <div style="margin-bottom: 28px;">
+        <p style="font-size: 12px; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 16px;">膚質指標量表（1 最低 → 5 最高）</p>
+
+        <div class="scale-row">
+          <span class="scale-label">出油程度</span>
+          <div class="scale-dots">
+            <label class="dot-item"><input type="radio" name="oil"><div class="dot">✓</div><span class="dot-num">1</span></label>
+            <label class="dot-item"><input type="radio" name="oil"><div class="dot">✓</div><span class="dot-num">2</span></label>
+            <label class="dot-item"><input type="radio" name="oil"><div class="dot">✓</div><span class="dot-num">3</span></label>
+            <label class="dot-item"><input type="radio" name="oil"><div class="dot">✓</div><span class="dot-num">4</span></label>
+            <label class="dot-item"><input type="radio" name="oil"><div class="dot">✓</div><span class="dot-num">5</span></label>
+          </div>
+        </div>
+
+        <div class="scale-row">
+          <span class="scale-label">缺水程度</span>
+          <div class="scale-dots">
+            <label class="dot-item"><input type="radio" name="water"><div class="dot">✓</div><span class="dot-num">1</span></label>
+            <label class="dot-item"><input type="radio" name="water"><div class="dot">✓</div><span class="dot-num">2</span></label>
+            <label class="dot-item"><input type="radio" name="water"><div class="dot">✓</div><span class="dot-num">3</span></label>
+            <label class="dot-item"><input type="radio" name="water"><div class="dot">✓</div><span class="dot-num">4</span></label>
+            <label class="dot-item"><input type="radio" name="water"><div class="dot">✓</div><span class="dot-num">5</span></label>
+          </div>
+        </div>
+
+        <div class="scale-row">
+          <span class="scale-label">敏感程度</span>
+          <div class="scale-dots">
+            <label class="dot-item"><input type="radio" name="sensitive"><div class="dot">✓</div><span class="dot-num">1</span></label>
+            <label class="dot-item"><input type="radio" name="sensitive"><div class="dot">✓</div><span class="dot-num">2</span></label>
+            <label class="dot-item"><input type="radio" name="sensitive"><div class="dot">✓</div><span class="dot-num">3</span></label>
+            <label class="dot-item"><input type="radio" name="sensitive"><div class="dot">✓</div><span class="dot-num">4</span></label>
+            <label class="dot-item"><input type="radio" name="sensitive"><div class="dot">✓</div><span class="dot-num">5</span></label>
+          </div>
+        </div>
+
+        <div class="scale-row">
+          <span class="scale-label">毛孔粗大</span>
+          <div class="scale-dots">
+            <label class="dot-item"><input type="radio" name="pore"><div class="dot">✓</div><span class="dot-num">1</span></label>
+            <label class="dot-item"><input type="radio" name="pore"><div class="dot">✓</div><span class="dot-num">2</span></label>
+            <label class="dot-item"><input type="radio" name="pore"><div class="dot">✓</div><span class="dot-num">3</span></label>
+            <label class="dot-item"><input type="radio" name="pore"><div class="dot">✓</div><span class="dot-num">4</span></label>
+            <label class="dot-item"><input type="radio" name="pore"><div class="dot">✓</div><span class="dot-num">5</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五大基礎膚質 -->
+      <p style="font-size: 12px; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 12px;">五大基礎膚質</p>
+      <div class="skin-cards">
+        <label class="skin-card-item">
+          <input type="radio" name="skin_type">
+          <div class="skin-card">
+            <div class="icon">💧</div>
+            <div class="name">中性肌</div>
+            <div class="desc">均勻光澤，毛孔細緻</div>
+          </div>
+        </label>
+        <label class="skin-card-item">
+          <input type="radio" name="skin_type">
+          <div class="skin-card">
+            <div class="icon">🌿</div>
+            <div class="name">乾性肌</div>
+            <div class="desc">細紋脫屑，緊繃感強</div>
+          </div>
+        </label>
+        <label class="skin-card-item">
+          <input type="radio" name="skin_type">
+          <div class="skin-card">
+            <div class="icon">✨</div>
+            <div class="name">油性肌</div>
+            <div class="desc">全臉泛油光，毛孔粗</div>
+          </div>
+        </label>
+        <label class="skin-card-item">
+          <input type="radio" name="skin_type">
+          <div class="skin-card">
+            <div class="icon">☯️</div>
+            <div class="name">混合肌</div>
+            <div class="desc">T區油 U區乾，最常見</div>
+          </div>
+        </label>
+        <label class="skin-card-item">
+          <input type="radio" name="skin_type">
+          <div class="skin-card">
+            <div class="icon">🌸</div>
+            <div class="name">敏感肌</div>
+            <div class="desc">易泛紅，皮膚薄透</div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- ── Section 4: 進階膚況 ── -->
+    <div class="section">
+      <div class="section-badge">03</div>
+      <p class="section-title">常見進階膚況判斷</p>
+
+      <!-- 缺水型油性肌 -->
+      <p style="font-size: 13px; font-weight: 600; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 16px;">進階混合肌 — 類型判斷</p>
+      <div class="adv-grid" style="margin-bottom: 24px;">
+        <label class="check-item" style="align-items: flex-start; gap: 10px; cursor: pointer;">
+          <input type="radio" name="dehydrated_oily">
+          <span class="radio-box" style="margin-top: 2px; flex-shrink: 0;"></span>
+          <div>
+            <p style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px;">乾性角化</p>
+            <p style="font-size: 12px; color: var(--text-muted); line-height: 1.8;">角質代謝異常，表面粗糙有乾屑，甚至有內包粉刺；感受偏缺水，易有緊繃感。</p>
+
+          </div>
+        </label>
+        <label class="check-item" style="align-items: flex-start; gap: 10px; cursor: pointer;">
+          <input type="radio" name="dehydrated_oily">
+          <span class="radio-box" style="margin-top: 2px; flex-shrink: 0;"></span>
+          <div>
+            <p style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px;">外油內乾</p>
+            <p style="font-size: 12px; color: var(--text-muted); line-height: 1.8;">表面油光發亮（大油田），但有細小乾紋甚至泛紅；洗臉後易感到緊繃。</p>
+
+          </div>
+        </label>
+      </div>
+
+      <!-- 其他進階膚況 -->
+      <p style="font-size: 13px; font-weight: 600; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 16px;">其他進階膚況（可複選）</p>
+      <div class="adv-grid">
+        <label class="check-item" style="align-items: flex-start; gap: 10px; cursor: pointer;">
+          <input type="checkbox" id="acne_skin">
+          <span class="check-box" style="margin-top: 2px;"></span>
+          <div>
+            <p style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px;">痤瘡 / 粉刺肌</p>
+            <p style="font-size: 12px; color: var(--text-muted); line-height: 1.8;">伴隨發炎性丘疹、膿皰或閉鎖性粉刺；可能由荷爾蒙、壓力或清潔不當引起。</p>
+          </div>
+        </label>
+        <label class="check-item" style="align-items: flex-start; gap: 10px; cursor: pointer;">
+          <input type="checkbox" id="aging_skin">
+          <span class="check-box" style="margin-top: 2px;"></span>
+          <div>
+            <p style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px;">熟齡 / 老化肌</p>
+            <p style="font-size: 12px; color: var(--text-muted); line-height: 1.8;">皮膚鬆弛、輪廓線模糊、深層皺紋及老年斑；按壓後回彈速度慢。</p>
+          </div>
+        </label>
+        <label class="check-item" style="align-items: flex-start; gap: 10px; cursor: pointer;">
+          <input type="checkbox" id="pigment_skin">
+          <span class="check-box" style="margin-top: 2px;"></span>
+          <div>
+            <p style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px;">色素沉著肌</p>
+            <p style="font-size: 12px; color: var(--text-muted); line-height: 1.8;">膚色不均、曬斑、雀斑或發炎後色素沉著（PIH）；外因（日曬）或內因（荷爾蒙、老化）皆可能。</p>
+          </div>
+        </label>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <p style="font-size: 12px; color: var(--text-muted); letter-spacing: 0.08em;">其他備註</p>
+          <textarea style="width:100%; background: var(--cream); border: 1px solid var(--border); border-radius:1px; padding: 8px 10px; font-family: 'Noto Serif TC', serif; font-size: 12px; color: var(--text); resize: none; height: 90px; outline: none; line-height:1.8;" placeholder="其他特殊膚況說明…"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="form-actions">
+      <button type="reset" class="btn btn-secondary">清除重填</button>
+      <button type="button" class="btn btn-primary" onclick="savePDF()">儲存為 PDF</button>
+    </div>
+
+  </form>
+
+  <!-- PDF 引導 Modal -->
+  <div id="pdfModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:999; align-items:center; justify-content:center; padding:24px;">
+    <div style="background:var(--white); border:1px solid var(--border); border-radius:2px; max-width:420px; width:100%; padding:32px 28px; position:relative;">
+      <p style="font-size:15px; font-weight:600; color:var(--brown-dark); letter-spacing:0.08em; margin-bottom:6px;">儲存為 PDF</p>
+      <p style="font-size:12px; color:var(--text-muted); margin-bottom:24px; line-height:1.8;">請依照您的裝置操作：</p>
+
+      <div id="guide-desktop" style="margin-bottom:20px;">
+        <p style="font-size:12px; font-weight:600; color:var(--gold); letter-spacing:0.1em; margin-bottom:10px;">💻 電腦</p>
+        <ol style="font-size:13px; color:var(--text); line-height:2.2; padding-left:18px;">
+          <li>點下方「開啟列印」</li>
+          <li>目的地 / 印表機選擇「<strong>另存為 PDF</strong>」</li>
+          <li>點「儲存」完成</li>
+        </ol>
+      </div>
+
+      <div style="margin-bottom:24px;">
+        <p style="font-size:12px; font-weight:600; color:var(--gold); letter-spacing:0.1em; margin-bottom:10px;">📱 手機（iOS Safari）</p>
+        <ol style="font-size:13px; color:var(--text); line-height:2.2; padding-left:18px;">
+          <li>點下方「開啟列印」</li>
+          <li>在預覽畫面用<strong>兩指張開</strong>放大</li>
+          <li>點左上角分享圖示 →「儲存至檔案」</li>
+        </ol>
+      </div>
+
+      <div style="margin-bottom:28px;">
+        <p style="font-size:12px; font-weight:600; color:var(--gold); letter-spacing:0.1em; margin-bottom:10px;">📱 手機（Android Chrome）</p>
+        <ol style="font-size:13px; color:var(--text); line-height:2.2; padding-left:18px;">
+          <li>點下方「開啟列印」</li>
+          <li>印表機選擇「<strong>另存為 PDF</strong>」</li>
+          <li>點「PDF」圖示儲存</li>
+        </ol>
+      </div>
+
+      <div style="display:flex; gap:12px;">
+        <button onclick="closePDFModal()" class="btn btn-secondary" style="flex:1;">取消</button>
+        <button onclick="doPrint()" class="btn btn-primary" style="flex:2;">開啟列印</button>
+      </div>
+    </div>
+  </div>
+
+  <p class="footer-note">MISS J AESTHETIC &nbsp;·&nbsp; Skin Analysis Consultation Form &nbsp;·&nbsp; Confidential</p>
+
+</div>
+
+<style>
+@media print {
+  .form-actions, #pdfModal { display: none !important; }
+  .section { break-inside: avoid; }
+  body { background: white; }
+}
+</style>
+
+<script>
+function savePDF() {
+  document.getElementById('pdfModal').style.display = 'flex';
+}
+function closePDFModal() {
+  document.getElementById('pdfModal').style.display = 'none';
+}
+function doPrint() {
+  closePDFModal();
+  setTimeout(() => window.print(), 300);
+}
+</script>
+</body>
+</html>
